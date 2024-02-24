@@ -1,13 +1,28 @@
 
 # to build the container image:
 
-./build.sh 
+./build_container.sh 
 
 
+# check out the code into repo
 
-run the container:
+cd repo
+git clone https://github.com/rusefi/rusefi.git
+
+
+# run the container:
 
 docker run --rm -it -v repo:/rusefi --name rusefi_build rusefi_build:0.1
+
+
+# inside the container:
+
+chown -R root:root /rusefi
+
+cd /rusefi/rusefi
+
+make clean
+
 
 
 container will be removed upon exit
