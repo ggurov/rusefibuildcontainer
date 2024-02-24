@@ -1,10 +1,12 @@
+# This makes it simpler to compile rusefi firmware by shoving the build environment into a container with ubuntu and all of the latest software bits required
+
 
 # to build the container image:
 
 ./build_container.sh 
 
 
-# check out the code into repo
+# check out the code into repo directory
 
 cd repo
 git clone https://github.com/rusefi/rusefi.git
@@ -12,18 +14,117 @@ git clone https://github.com/rusefi/rusefi.git
 
 # run the container:
 
-docker run --rm -it -v repo:/rusefi --name rusefi_build rusefi_build:0.1
+./run_container.sh
 
-
+# --------------------------------------------------------------------------------
 # inside the container:
 
 chown -R root:root /rusefi
 
-cd /rusefi/rusefi
+cd /rusefi/rusefi/firmware
 
-make clean
+root@bfa3cddcd67a:/rusefi/rusefi/firmware# make clean
+
+ChibiOS/os/readme.txt not found. Chibios: Invoking "git submodule update --init"
+Submodule 'firmware/ChibiOS' (https://github.com/rusefi/ChibiOS.git) registered for path 'ChibiOS'
+Submodule 'firmware/ChibiOS-Contrib' (https://github.com/rusefi/ChibiOS-Contrib.git) registered for path 'ChibiOS-Contrib'
+Submodule 'firmware/controllers/can/wideband_firmware' (https://github.com/mck1117/wideband) registered for path 'controllers/can/wideband_firmware'
+Submodule 'firmware/controllers/lua/luaaa' (https://github.com/rusefi/luaaa) registered for path 'controllers/lua/luaaa'
+Submodule 'firmware/ext/lua' (https://github.com/rusefi/lua) registered for path 'ext/lua'
+Submodule 'firmware/ext/openblt' (https://github.com/rusefi/openblt) registered for path 'ext/openblt'
+Submodule 'firmware/ext/uzlib' (https://github.com/pfalcon/uzlib) registered for path 'ext/uzlib'
+Submodule 'firmware/libfirmware' (https://github.com/rusefi/libfirmware.git) registered for path 'libfirmware'
+Submodule 'hardware/InteractiveHtmlBom' (https://github.com/openscopeproject/InteractiveHtmlBom.git) registered for path '../hardware/InteractiveHtmlBom'
+Submodule 'hardware/rusefi_lib' (https://github.com/rusefi/kicad-libraries) registered for path '../hardware/rusefi_lib'
+Submodule 'java_console/luaformatter' (https://github.com/rusefi/luaformatter) registered for path '../java_console/luaformatter'
+Submodule 'java_console/peak-can-basic' (https://github.com/rusefi/peak-can-basic) registered for path '../java_console/peak-can-basic'
+Submodule 'misc/hex2dfu' (https://github.com/rusefi/hex2dfu) registered for path '../misc/hex2dfu'
+Submodule 'unit_tests/googletest' (https://github.com/google/googletest.git) registered for path '../unit_tests/googletest'
+Cloning into '/rusefi/rusefi/firmware/ChibiOS'...
+Cloning into '/rusefi/rusefi/firmware/ChibiOS-Contrib'...
+Cloning into '/rusefi/rusefi/firmware/controllers/can/wideband_firmware'...
+Cloning into '/rusefi/rusefi/firmware/controllers/lua/luaaa'...
+Cloning into '/rusefi/rusefi/firmware/ext/lua'...
+Cloning into '/rusefi/rusefi/firmware/ext/openblt'...
+Cloning into '/rusefi/rusefi/firmware/ext/uzlib'...
+Cloning into '/rusefi/rusefi/firmware/libfirmware'...
+Cloning into '/rusefi/rusefi/hardware/InteractiveHtmlBom'...
+Cloning into '/rusefi/rusefi/hardware/rusefi_lib'...
+Cloning into '/rusefi/rusefi/java_console/luaformatter'...
+Cloning into '/rusefi/rusefi/java_console/peak-can-basic'...
+Cloning into '/rusefi/rusefi/misc/hex2dfu'...
+Cloning into '/rusefi/rusefi/unit_tests/googletest'...
+rusefi.mk:5: *** multiple target patterns.  Stop.
+
+
+# -------------------------------------------
+#  compile uaefi firmware, for example
+
+cd /rusefi/rusefi/firmware/config/boards/hellen/uaefi/
+chmod 755 compile_firmware.sh
+./compile_firmware.sh
+
+
+root@bfa3cddcd67a:/rusefi/rusefi/firmware/config/boards/hellen/uaefi# ./compile_firmware.sh
+[META] Reading meta env from ./config/boards/hellen/uaefi/meta-info.env
+[META] PROJECT_BOARD=
+[META] PROJECT_CPU=ARCH_STM32F4
+[META] POST_BUILD_SCRIPT=
+[META] BOARD_DIR=./config/boards/hellen/uaefi
+[META] USE_OPENBLT=
+found ./config/boards/hellen/uaefi/connectors/generated_ts_name_by_pin.cpp
+PROJECT_BOARD: uaefi
+BOARD_DIR:     ././config/boards/hellen/uaefi
+
+
+.
+.
+.
+.
 
 
 
-container will be removed upon exit
+Linking build/rusefi.elf
+lto-wrapper: warning: Options to '-Xassembler' do not match: -alms=build/lst/gcc_version_check.lst, -alms=build/lst/crt1.lst, dropping all '-Xassembler' and '-Wa' options.
+Creating build/rusefi.hex
+Creating build/rusefi.bin
+Creating build/rusefi.dmp
+Creating build/rusefi.list
+Creating build/rusefi.srec
+
+   text    data     bss     dec     hex filename
+ 532488    1584  188216  722288   b0570 build/rusefi.elf
+bss Total size: 114327
+ram4 Total size: 0
+text Total size: 403122
+data Total size: 1471
+rodata Total size: 107648
+ 20 .ram4         0000e560  10000000  08082650  000b0000  2**3
+
+Done
+root@bfa3cddcd67a:/rusefi/rusefi/firmware/config/boards/hellen/uaefi#
+
+
+# ---------------------
+# firware is here
+
+ls -la /rusefi/rusefi/firmware/build
+
+
+root@bfa3cddcd67a:/rusefi/rusefi/firmware/build# ls -la /rusefi/rusefi/firmware/build
+total 33708
+drwxr-xr-x  4 root root     4096 Feb 24 18:55 .
+drwxr-xr-x 22 root root     4096 Feb 24 18:55 ..
+drwxr-xr-x  2 root root    20480 Feb 24 18:55 lst
+drwxr-xr-x  2 root root    20480 Feb 24 18:55 obj
+-rwxr-xr-x  1 root root   534096 Feb 24 18:55 rusefi.bin
+-rw-r--r--  1 root root   738564 Feb 24 18:55 rusefi.dmp
+-rwxr-xr-x  1 root root 18285028 Feb 24 18:55 rusefi.elf
+-rw-r--r--  1 root root  1502297 Feb 24 18:55 rusefi.hex
+-rw-r--r--  1 root root  9227459 Feb 24 18:55 rusefi.list
+-rw-r--r--  1 root root  2675571 Feb 24 18:55 rusefi.map
+-rwxr-xr-x  1 root root  1602318 Feb 24 18:55 rusefi.srec
+
+
+## exit out of the container, it will get removed on exit, but the repo directory is external and ./run_container.sh will get back to spot where compile can happen
 
