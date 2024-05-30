@@ -1,71 +1,55 @@
 # This makes it simpler to compile rusefi firmware by shoving the build environment into a container with ubuntu and all of the latest software bits required
 
 
-# to build the container image:
+# build and run the container, it should have all the bits needed for compiling
 
 ./build_container.sh 
-
+./run_container.sh
 
 # check out the code into repo directory
 
-cd repo
+cd /rusefi
+
 git clone https://github.com/rusefi/rusefi.git
 
+cd rusefi
 
-# run the container:
+git submodule update --init
 
-./run_container.sh
+cd firmware
 
-# --------------------------------------------------------------------------------
-# inside the container:
-
-chown -R root:root /rusefi
-
-cd /rusefi/rusefi/firmware
-
-root@bfa3cddcd67a:/rusefi/rusefi/firmware# make clean
-
-ChibiOS/os/readme.txt not found. Chibios: Invoking "git submodule update --init"
-Submodule 'firmware/ChibiOS' (https://github.com/rusefi/ChibiOS.git) registered for path 'ChibiOS'
-Submodule 'firmware/ChibiOS-Contrib' (https://github.com/rusefi/ChibiOS-Contrib.git) registered for path 'ChibiOS-Contrib'
-Submodule 'firmware/controllers/can/wideband_firmware' (https://github.com/mck1117/wideband) registered for path 'controllers/can/wideband_firmware'
-Submodule 'firmware/controllers/lua/luaaa' (https://github.com/rusefi/luaaa) registered for path 'controllers/lua/luaaa'
-Submodule 'firmware/ext/lua' (https://github.com/rusefi/lua) registered for path 'ext/lua'
-Submodule 'firmware/ext/openblt' (https://github.com/rusefi/openblt) registered for path 'ext/openblt'
-Submodule 'firmware/ext/uzlib' (https://github.com/pfalcon/uzlib) registered for path 'ext/uzlib'
-Submodule 'firmware/libfirmware' (https://github.com/rusefi/libfirmware.git) registered for path 'libfirmware'
-Submodule 'hardware/InteractiveHtmlBom' (https://github.com/openscopeproject/InteractiveHtmlBom.git) registered for path '../hardware/InteractiveHtmlBom'
-Submodule 'hardware/rusefi_lib' (https://github.com/rusefi/kicad-libraries) registered for path '../hardware/rusefi_lib'
-Submodule 'java_console/luaformatter' (https://github.com/rusefi/luaformatter) registered for path '../java_console/luaformatter'
-Submodule 'java_console/peak-can-basic' (https://github.com/rusefi/peak-can-basic) registered for path '../java_console/peak-can-basic'
-Submodule 'misc/hex2dfu' (https://github.com/rusefi/hex2dfu) registered for path '../misc/hex2dfu'
-Submodule 'unit_tests/googletest' (https://github.com/google/googletest.git) registered for path '../unit_tests/googletest'
-Cloning into '/rusefi/rusefi/firmware/ChibiOS'...
-Cloning into '/rusefi/rusefi/firmware/ChibiOS-Contrib'...
-Cloning into '/rusefi/rusefi/firmware/controllers/can/wideband_firmware'...
-Cloning into '/rusefi/rusefi/firmware/controllers/lua/luaaa'...
-Cloning into '/rusefi/rusefi/firmware/ext/lua'...
-Cloning into '/rusefi/rusefi/firmware/ext/openblt'...
-Cloning into '/rusefi/rusefi/firmware/ext/uzlib'...
-Cloning into '/rusefi/rusefi/firmware/libfirmware'...
-Cloning into '/rusefi/rusefi/hardware/InteractiveHtmlBom'...
-Cloning into '/rusefi/rusefi/hardware/rusefi_lib'...
-Cloning into '/rusefi/rusefi/java_console/luaformatter'...
-Cloning into '/rusefi/rusefi/java_console/peak-can-basic'...
-Cloning into '/rusefi/rusefi/misc/hex2dfu'...
-Cloning into '/rusefi/rusefi/unit_tests/googletest'...
-rusefi.mk:5: *** multiple target patterns.  Stop.
+bin/compile.sh
 
 
-# -------------------------------------------
-#  compile uaefi firmware, for example
 
-cd /rusefi/rusefi/firmware/config/boards/hellen/uaefi/
-chmod 755 compile_firmware.sh
-./compile_firmware.sh
+root@8f742cb38bfe:/rusefi/rusefi/firmware# bin/compile.sh
+ 1) alphax-2chan default                          18) f469-discovery default                        35) hellenMiataNB1 default                        52) proteus proteus_f7_debug
+ 2) alphax-4chan alphax-4chan                     19) frankenso_na6 default                         36) hellenMiataNB2 default                        53) proteus proteus_f7_hardware_QC_special_build
+ 3) alphax-4chan alphax-4chan_f7                  20) hellen-112-17 hellen-112-17                   37) kinetis default                               54) proteus proteus_f7_tcu
+ 4) alphax-8chan alphax-8chan                     21) hellen-112-17 hellen-112-17_debug             38) m74_9 default                                 55) proteus proteus_h7
+ 5) alphax-8chan alphax-8chan_debug               22) hellen-gm-e67 default                         39) microrusefi mre-legacy_f4                     56) proteus proteus_h7_debug
+ 6) alphax-8chan alphax-8chan_f7                  23) hellen-honda-k hellen-honda-k                 40) microrusefi mre_f4                            57) proteus proteus_legacy
+ 7) alphax-8chan-revA default                     24) hellen-honda-k hellen-honda-k_debug           41) microrusefi mre_f7                            58) s105 default
+ 8) alphax-silver default                         25) hellen121nissan default                       42) nucleo_f413 default                           59) small-can-board small-can-board
+ 9) at_start_f435 default                         26) hellen121vag default                          43) nucleo_f429 default                           60) small-can-board small-can-board_debug
+10) atlas default                                 27) hellen128 default                             44) nucleo_f767 stm32f767_nucleo                  61) subaru_eg33 subaru_eg33_f7
+11) cypress default                               28) hellen154hyundai hellen154hyundai             45) nucleo_f767 stm32f767_nucleo_debug            62) subaru_eg33 subaru_eg33_f7_no_bl
+12) f405 default                                  29) hellen154hyundai_f7 hellen154hyundai_f7       46) nucleo_f767 stm32f767_osc                     63) tdg-pdm8 default
+13) f407-discovery f407-discovery_debug           30) hellen81 default                              47) nucleo_h743 default                           64) test-build-guards default
+14) f407-discovery default                        31) hellen88bmw hellen88bmw                       48) proteus proteus_f4                            65) uaefi default
+15) f429-208 default                              32) hellen88bmw hellen88bmw_avr                   49) proteus proteus_f4_debug
+16) f429-discovery default                        33) hellenMiataNA6 default                        50) proteus proteus_f4_hardware_QC_special_build
+17) f469 default                                  34) hellenMiataNA96 default                       51) proteus proteus_f7
+Select a build by entering its number: 14
 
 
-root@bfa3cddcd67a:/rusefi/rusefi/firmware/config/boards/hellen/uaefi# ./compile_firmware.sh
+.
+.
+.
+.
+
+
+
 [META] Reading meta env from ./config/boards/hellen/uaefi/meta-info.env
 [META] PROJECT_BOARD=
 [META] PROJECT_CPU=ARCH_STM32F4
