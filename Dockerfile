@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ubuntu:jammy
+FROM ubuntu:noble
 COPY config.sh /config.sh
 RUN /config.sh
 CMD /bin/bash
