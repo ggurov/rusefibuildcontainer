@@ -6,6 +6,9 @@ apt-get -y install make
 apt-get -y install gcc-multilib g++-multilib g++-mingw-w64 gcc-mingw-w64 sshpass mtools zip dosfstools
 apt-get -y install build-essential gcc gdb gcc-multilib make openjdk-11-jdk-headless xxd nano rsync wget
 apt-get -y install libncurses5 libncursesw5
+apt-get -y install  python3-pip python3
+pip  install --break-system-packages pyyaml jinja2
+
 
 /./provide_gcc.sh
 
