@@ -1,3 +1,2 @@
 #/usr/bin/bash
- 
-echo "we'd upload the ini to your server somewhere from here, just not mine"
+/rusefi/epicefi/firmware/tunerstudio/upload_ini.sh  ggurov a 192.168.1.243
