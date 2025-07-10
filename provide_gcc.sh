@@ -38,5 +38,5 @@ SWD="$PWD"
 # Create colloquially named link
 cd "$SWD"
 echo "Linking ${TMP_DIR} ${COLLOQUIAL}"
-ln -sf "${TMP_DIR}"/bin/* /usr/bin/
+ln -sf "${TMP_DIR}"/*/bin/* /usr/bin/
 
