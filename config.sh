@@ -9,6 +9,8 @@ apt-get -y install libncurses5 libncursesw5 libarchive-zip-perl bsdextrautils
 apt-get -y install  python3-pip python3 python3-pandas openjfx libopenjfx-java
 apt-get -y install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 apt-get -y install php npm node.js valgrind bc
+apt-get -y install mingw-w64-common mingw-w64-tools mingw-w64 mingw-w64-x86-64-dev mingw-w64-i686-dev g++-mingw-w64
+apt-get -y install g++-mingw-w64-x86-64  gcc-mingw-w64-x86-64  gcc-mingw-w64-base cmake
 pip  install --break-system-packages pyyaml jinja2 
 npm install -g openwolf
 
