@@ -15,6 +15,14 @@ apt-get -y install g++-arm-linux-gnueabihf qemu-user
 pip  install --break-system-packages pyyaml jinja2 
 npm install -g openwolf
 
+# IOX (MEGA_EPIC_IOX) firmware/bundle builds: arduino-cli + the AVR core + the
+# CAN library the sketch includes. ARDUINO_DIRECTORIES_* are set in the
+# Dockerfile, so root and non-root shells share one toolchain under /opt.
+curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/local/bin sh
+arduino-cli core install arduino:avr
+arduino-cli lib install "autowp-mcp2515@1.3.1"
+if [ -d /opt/arduino15 ]; then chmod -R a+rX /opt/arduino15 /opt/arduino; fi
+
 
 /./provide_gcc.sh
 
